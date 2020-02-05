@@ -1,4 +1,10 @@
-export const members = [
+
+interface Member {
+  userId: number,
+  communityId: number,
+}
+
+export const members: Member[] = [
   {
     userId: 2,
     communityId: 1,

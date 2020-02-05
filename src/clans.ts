@@ -1,4 +1,12 @@
-export const clans = [
+
+export interface Clan {
+  id: number;
+  name: String;
+  description: String,
+  communityId: number
+};
+
+export const clans: Clan[] = [
   {
     id: 1,
     name: "Character building",

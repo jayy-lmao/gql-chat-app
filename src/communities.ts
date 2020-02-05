@@ -1,4 +1,11 @@
-export const communities = [
+export interface Community {
+  id: number;
+  name: String;
+  description: String;
+  owner: number;
+}
+
+export const communities: Community[] = [
   {
     id: 1,
     name: "Daddy's Dungeons",
