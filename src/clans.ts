@@ -1,22 +1,16 @@
+import { Clan } from './@types';
 
-export interface Clan {
-  id: number;
-  name: String;
-  description: String,
-  communityId: number
-};
-
-export const clans: Clan[] = [
+const clans: Clan[] = [
   {
     id: 1,
-    name: "Character building",
-    description: "Coming up with characters",
+    name: 'Character building',
+    description: 'Coming up with characters',
     communityId: 1,
   },
   {
     id: 2,
-    name: "Damage Control",
-    description: "Deciding how to deal damage",
+    name: 'Damage Control',
+    description: 'Deciding how to deal damage',
     communityId: 1,
   },
   {
@@ -26,3 +20,5 @@ export const clans: Clan[] = [
     communityId: 2,
   },
 ];
+
+export default clans;

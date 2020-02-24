@@ -1,10 +1,6 @@
+import { Member } from './@types';
 
-interface Member {
-  userId: number,
-  communityId: number,
-}
-
-export const members: Member[] = [
+const members: Member[] = [
   {
     userId: 2,
     communityId: 1,
@@ -18,3 +14,5 @@ export const members: Member[] = [
     communityId: 1,
   },
 ];
+
+export default members;

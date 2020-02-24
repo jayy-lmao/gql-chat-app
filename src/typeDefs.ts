@@ -1,6 +1,6 @@
-import { gql } from "apollo-server";
+import { gql } from 'apollo-server';
 
-export const typeDefs = gql`
+const typeDefs = gql`
   type Community {
     clans: [Clan]
     description: String
@@ -26,3 +26,5 @@ export const typeDefs = gql`
     communities: [Community]
   }
 `;
+
+export default typeDefs;

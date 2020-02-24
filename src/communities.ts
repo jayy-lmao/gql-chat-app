@@ -1,21 +1,18 @@
-export interface Community {
-  id: number;
-  name: String;
-  description: String;
-  owner: number;
-}
+import { Community } from './@types';
 
-export const communities: Community[] = [
+const communities: Community[] = [
   {
     id: 1,
     name: "Daddy's Dungeons",
-    description: "Dungeons and dragons chat",
+    description: 'Dungeons and dragons chat',
     owner: 1,
   },
   {
     id: 2,
-    name: "Yeetus",
-    description: "The finest meetus",
+    name: 'Yeetus',
+    description: 'The finest meetus',
     owner: 2,
   },
 ];
+
+export default communities;
