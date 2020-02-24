@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server';
 import resolvers from './resolvers';
-import typeDefs from './typeDefs';
+import schema from './schema';
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 server.listen().then(({ url }) => {
   // eslint-disable-next-line no-console

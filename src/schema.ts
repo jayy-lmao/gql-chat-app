@@ -14,6 +14,15 @@ const typeDefs = gql`
     id: Int!
     members: [User]
     name: String
+    community: Community
+    messages: [Message]
+  }
+
+  type Message {
+    id: Int
+    text: String
+    clan: Clan
+    author: User
   }
 
   type User {
