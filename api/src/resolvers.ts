@@ -12,9 +12,6 @@ const { PubSub } = require('apollo-server');
 const pubsub = new PubSub();
 const NEW_MESSAGE = 'NEW_MESSAGE';
 
-// Should be able to mutate in memory just like this
-users.push({ id: 3, name: 'Mickey' });
-
 const resolvers = {
   Message: {
     author: (parent: Message) => find(users, { id: parent.authorId }),

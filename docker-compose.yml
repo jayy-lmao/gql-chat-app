@@ -1,0 +1,21 @@
+version: "2.3"
+services: 
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports: 
+      - "4000:4000"
+    expose:
+       - 4000
+    networks:
+      - jayy_network
+  redis:
+    image: redis
+    networks:
+      - jayy_network
+
+
+networks:
+  jayy_network:
+    driver: bridge
