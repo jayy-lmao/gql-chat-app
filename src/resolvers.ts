@@ -30,6 +30,18 @@ const resolvers = {
     users: () => users,
     communities: () => communities,
   },
+  Mutation: {
+    createUser: (_, args) => {
+      const newUser = { name: args.name, id: users.length };
+      users.push(newUser);
+      return newUser;
+    },
+    createMessage: (_, args) => {
+      const newMessage = { authorId: args.author, text: args.text, clanId: args.clan, id: messages.length };
+      messages.push(newMessage);
+      return newMessage;
+    },
+  },
 };
 
 export default resolvers;
