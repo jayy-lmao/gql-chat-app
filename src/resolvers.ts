@@ -7,6 +7,11 @@ import messages from './messages';
 
 import members from './members';
 
+const { PubSub } = require('apollo-server');
+
+const pubsub = new PubSub();
+const NEW_MESSAGE = 'NEW_MESSAGE';
+
 // Should be able to mutate in memory just like this
 users.push({ id: 3, name: 'Mickey' });
 
@@ -30,6 +35,11 @@ const resolvers = {
     users: () => users,
     communities: () => communities,
   },
+  Subscription: {
+    newMessage: {
+      subscribe: () => pubsub.asyncIterator([NEW_MESSAGE]),
+    },
+  },
   Mutation: {
     createUser: (_, args) => {
       const newUser = { name: args.name, id: users.length };
@@ -37,8 +47,9 @@ const resolvers = {
       return newUser;
     },
     createMessage: (_, args) => {
-      const newMessage = { authorId: args.author, text: args.text, clanId: args.clan, id: messages.length };
+      const newMessage = { authorId: args.authorId, text: args.text, clanId: args.clanId, id: messages.length };
       messages.push(newMessage);
+      pubsub.publish(NEW_MESSAGE, { newMessage });
       return newMessage;
     },
   },

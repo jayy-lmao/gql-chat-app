@@ -37,6 +37,11 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(name: String): User
+    createMessage(text: String, clanId: Int, authorId: Int): Message
+  }
+
+  type Subscription {
+    newMessage: Message
   }
 `;
 
