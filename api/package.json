@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon --legacy-watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "start": "yarn watch",
+    "watch": "ts-node-dev src/index.ts",
+    "start": "ts-node src/index.ts",
     "lint": "eslint src/*.ts --fix"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "lodash": "^4.17.15",
     "passport": "^0.4.1",
     "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.0-dev.20200226"
   },
   "devDependencies": {
@@ -29,7 +30,6 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "nodemon": "^2.0.2",
     "prettier": "^1.19.1"
   }
 }
