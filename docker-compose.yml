@@ -10,10 +10,32 @@ services:
        - 4000
     networks:
       - jayy_network
+    volumes:
+      - ./api/src:/usr/src/app/src
+      - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
+
   redis:
     image: redis
     networks:
       - jayy_network
+    ports:
+      - 6379:6379
+  db:
+    image: postgres:12
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    environment:
+      POSTGRES_USER: jayylmao
+      POSTGRES_PASSWORD: yeetus
+    ports:
+      - "5432:5432"
+    networks:
+      - jayy_network
+    volumes:
+      - ./database/:/docker-entrypoint-initdb.d/
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
 
 
 networks:
