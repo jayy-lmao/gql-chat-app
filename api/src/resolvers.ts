@@ -1,4 +1,6 @@
 import { find, filter } from 'lodash';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import Redis from 'ioredis';
 import { users } from './users';
 import communities from './communities';
 import { Community, Clan, Message } from './@types';
@@ -7,9 +9,13 @@ import messages from './messages';
 
 import members from './members';
 
-const { PubSub } = require('apollo-server');
+const options = {
+  host: 'redis',
+  port: 6379,
+};
 
-const pubsub = new PubSub();
+const pubSub = new RedisPubSub({ publisher: new Redis(options), subscriber: new Redis(options) });
+
 const NEW_MESSAGE = 'NEW_MESSAGE';
 
 const resolvers = {
@@ -34,7 +40,7 @@ const resolvers = {
   },
   Subscription: {
     newMessage: {
-      subscribe: () => pubsub.asyncIterator([NEW_MESSAGE]),
+      subscribe: () => pubSub.asyncIterator([NEW_MESSAGE]),
     },
   },
   Mutation: {
@@ -46,7 +52,7 @@ const resolvers = {
     createMessage: (_, args) => {
       const newMessage = { authorId: args.authorId, text: args.text, clanId: args.clanId, id: messages.length };
       messages.push(newMessage);
-      pubsub.publish(NEW_MESSAGE, { newMessage });
+      pubSub.publish(NEW_MESSAGE, { newMessage });
       return newMessage;
     },
   },
