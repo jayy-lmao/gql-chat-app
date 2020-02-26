@@ -6,13 +6,16 @@ services:
       dockerfile: Dockerfile.dev
     ports: 
       - "4000:4000"
+    depends_on: 
+      - redis
+      - db
     expose:
        - 4000
     networks:
       - jayy_network
     volumes:
-      - ./api/src:/usr/src/app/src
-      - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
+      - ./api:/usr/src/app/
+      # - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
 
   redis:
     image: redis
