@@ -3,10 +3,7 @@ import { createConnection } from 'typeorm';
 import resolvers from './resolvers';
 import schema from './schema';
 import 'reflect-metadata';
-import User from './entities/User';
-import Community from './entities/Community';
-import Clan from './entities/Clan';
-import Message from './entities/Message';
+import { entitiesContext, entities } from './entities';
 
 createConnection({
   type: 'postgres',
@@ -15,14 +12,14 @@ createConnection({
   username: 'jayylmao',
   password: 'yeetus',
   database: 'chatapp',
-  entities: [User, Community, Clan, Message],
+  entities,
   synchronize: true,
   logging: false,
 }).then(async () => {
   const server = new ApolloServer({
     typeDefs: schema,
     resolvers,
-    context: { User, Community, Clan, Message },
+    context: { ...entitiesContext },
   });
 
   server.listen().then(({ url }) => {
