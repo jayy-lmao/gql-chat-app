@@ -35,7 +35,7 @@ const resolvers = {
     messages: (parent: Clan) => filter(messages, { clanId: parent.id }),
   },
   Query: {
-    users: () => users,
+    users: (_parent, _args, { User }) => User.find(),
     communities: () => communities,
   },
   Subscription: {
@@ -44,11 +44,16 @@ const resolvers = {
     },
   },
   Mutation: {
-    createUser: (_, args) => {
-      const newUser = { name: args.name, id: users.length };
-      users.push(newUser);
-      return newUser;
+    createUser: (_parent, args, { User }) => {
+      const user = new User();
+      user.name = args.name;
+      return user.save();
     },
+    // createUser: (_, args) => {
+    //   const newUser = { name: args.name, id: users.length };
+    //   users.push(newUser);
+    //   return newUser;
+    // },
     createMessage: (_, args) => {
       const newMessage = { authorId: args.authorId, text: args.text, clanId: args.clanId, id: messages.length };
       messages.push(newMessage);

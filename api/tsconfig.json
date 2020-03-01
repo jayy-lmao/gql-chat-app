@@ -1,12 +1,21 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs", 
-    "lib": [ "dom","es6" ],
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2020"
+    ],
     "outDir": "dist",
     "rootDir": "src",
-    "removeComments": true
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "exclude": [ "node_modules" ],
-  "include": [ "src/**/*.ts" ]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
 }
