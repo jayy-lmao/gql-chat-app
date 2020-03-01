@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
-class Community extends BaseEntity {
+class Clan extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,4 +12,4 @@ class Community extends BaseEntity {
   name: string;
 }
 
-export default Community;
+export default Clan;

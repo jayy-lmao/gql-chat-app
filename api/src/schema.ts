@@ -26,18 +26,21 @@ const typeDefs = gql`
   }
 
   type User {
-    id: Int!
+    id: String!
     name: String
+    messages: [Message]
   }
 
   type Query {
     users: [User]
     communities: [Community]
+    messages: [Message]
+    clans: [Clan]
   }
 
   type Mutation {
     createUser(name: String): User
-    createMessage(text: String, clanId: Int, authorId: Int): Message
+    createMessage(text: String, clanId: Int, authorId: String): Message
   }
 
   type Subscription {

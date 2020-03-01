@@ -1,13 +1,5 @@
-import { find, filter } from 'lodash';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
-import { users } from './users';
-import communities from './communities';
-import { Community, Clan, Message } from './@types';
-import clans from './clans';
-import messages from './messages';
-
-import members from './members';
 
 const options = {
   host: 'redis',
@@ -20,23 +12,19 @@ const NEW_MESSAGE = 'NEW_MESSAGE';
 
 const resolvers = {
   Message: {
-    author: (parent: Message) => find(users, { id: parent.authorId }),
-    clan: (parent: Message) => find(clans, { id: parent.clanId }),
+    author: (parent, _args, { User }) => {
+      console.log(parent.authorId);
+      return User.findOne(parent.authorId);
+    },
   },
-  Community: {
-    // parent, args, context, info
-    clans: (parent: Community) => filter(clans, { communityId: parent.id }),
-    owner: (parent: Community) => find(users, { id: parent.owner }),
-  },
-  Clan: {
-    community: (parent: Clan) => find(clans, { communityId: parent.id }),
-    members: (parent: Clan) =>
-      filter(members, { communityId: parent.id }).map(member => find(users, { id: member.userId })),
-    messages: (parent: Clan) => filter(messages, { clanId: parent.id }),
+  User: {
+    messages: (parent, _args, { Message }) => Message.find({ author: parent.id }),
   },
   Query: {
     users: (_parent, _args, { User }) => User.find(),
-    communities: () => communities,
+    messages: (_parent, _args, { Message }) => Message.find(),
+    communities: (_parent, _args, { Community }) => Community.find(),
+    clans: (_parent, _args, { Clan }) => Clan.find(),
   },
   Subscription: {
     newMessage: {
@@ -49,16 +37,13 @@ const resolvers = {
       user.name = args.name;
       return user.save();
     },
-    // createUser: (_, args) => {
-    //   const newUser = { name: args.name, id: users.length };
-    //   users.push(newUser);
-    //   return newUser;
-    // },
-    createMessage: (_, args) => {
-      const newMessage = { authorId: args.authorId, text: args.text, clanId: args.clanId, id: messages.length };
-      messages.push(newMessage);
-      pubSub.publish(NEW_MESSAGE, { newMessage });
-      return newMessage;
+    createMessage: (_parent, args, { Message }) => {
+      const message = new Message();
+      console.log({ args });
+      message.text = args.text;
+      message.authorId = args.authorId;
+      message.clanId = args.clanId;
+      return message.save();
     },
   },
 };

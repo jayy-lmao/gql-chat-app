@@ -1,15 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
-class Community extends BaseEntity {
+class Message extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  description: string;
+  text: string;
 
   @Column()
-  name: string;
+  authorId: string;
+
+  @Column()
+  clanId: number;
 }
 
-export default Community;
+export default Message;
