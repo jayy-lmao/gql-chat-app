@@ -29,13 +29,14 @@ services:
     environment:
       POSTGRES_USER: jayylmao
       POSTGRES_PASSWORD: yeetus
+      POSTGRES_DB: chatapp
     ports:
       - "5432:5432"
     networks:
       - jayy_network
-    volumes:
-      - ./database/:/docker-entrypoint-initdb.d/
-      - db-data:/var/lib/postgresql/data
+    # volumes:
+    #   - ./database/:/docker-entrypoint-initdb.d/
+    #   - db-data:/var/lib/postgresql/data
 
 volumes:
   db-data:
