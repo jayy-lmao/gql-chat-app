@@ -1,9 +1,11 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, gql } from 'apollo-server';
+import * as fs from 'fs';
 import { createConnection } from 'typeorm';
 import resolvers from './resolvers';
-import schema from './schema';
 import 'reflect-metadata';
 import { entitiesContext, entities } from './entities';
+
+const typeDefs = gql(fs.readFileSync(__dirname.concat('/schema.graphql'), 'utf8'));
 
 createConnection({
   type: 'postgres',
@@ -17,7 +19,7 @@ createConnection({
   logging: false,
 }).then(async () => {
   const server = new ApolloServer({
-    typeDefs: schema,
+    typeDefs,
     resolvers,
     context: { ...entitiesContext },
   });
