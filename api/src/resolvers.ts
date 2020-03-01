@@ -12,10 +12,7 @@ const NEW_MESSAGE = 'NEW_MESSAGE';
 
 const resolvers = {
   Message: {
-    author: (parent, _args, { User }) => {
-      console.log(parent.authorId);
-      return User.findOne(parent.authorId);
-    },
+    author: (parent, _args, { User }) => User.findOne(parent.authorId),
   },
   User: {
     messages: (parent, _args, { Message }) => Message.find({ author: parent.id }),
@@ -39,7 +36,6 @@ const resolvers = {
     },
     createMessage: (_parent, args, { Message }) => {
       const message = new Message();
-      console.log({ args });
       message.text = args.text;
       message.authorId = args.authorId;
       message.clanId = args.clanId;
