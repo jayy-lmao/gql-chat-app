@@ -1,11 +1,15 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 import * as session from 'express-session';
+import * as Redis from 'ioredis';
+
 import * as express from 'express';
 import * as fs from 'fs';
 import { createConnection } from 'typeorm';
 import resolvers from './resolvers';
 import 'reflect-metadata';
 import { entitiesContext, entities } from './entities';
+
+const RedisStore = require('connect-redis')(session);
 
 const typeDefs = gql(fs.readFileSync(__dirname.concat('/schema.graphql'), 'utf8'));
 
@@ -34,6 +38,7 @@ const startServer = async () => {
     session({
       secret: 'afasgasd',
       resave: false,
+      store: new RedisStore({ client: new Redis({ host: 'redis', port: 6379 }) }),
       saveUninitialized: false,
     }),
   );
