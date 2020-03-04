@@ -24,7 +24,9 @@ type Message {
 
 type User {
   id: String!
-  name: String
+  firstname: String
+  lastname: String
+  username: String
   messages: [Message]
 }
 
@@ -33,10 +35,11 @@ type Query {
   communities: [Community]
   messages: [Message]
   clans: [Clan]
+  login(password: String!, username: String!): String
 }
 
 type Mutation {
-  createUser(name: String): User
+  createUser(username: String, password: String): User
   createMessage(text: String, clanId: Int, authorId: String): Message
 }
 

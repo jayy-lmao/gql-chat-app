@@ -13,7 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "apollo-server": "^2.9.16",
+    "bcrypt": "^4.0.1",
     "graphql": "^14.6.0",
     "graphql-redis-subscriptions": "^2.1.2",
     "ioredis": "^4.16.0",
