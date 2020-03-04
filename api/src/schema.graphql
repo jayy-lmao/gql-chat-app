@@ -36,6 +36,7 @@ type Query {
   messages: [Message]
   clans: [Clan]
   login(password: String!, username: String!): String
+  me: User
 }
 
 type Mutation {
