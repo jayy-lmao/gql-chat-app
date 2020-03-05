@@ -30,6 +30,7 @@ const startServer = async () => {
 
   const server = new ApolloServer({
     typeDefs,
+    tracing: true,
     resolvers,
     context: ({ res, req }) => ({ req, res, data: entitiesContext }),
   });

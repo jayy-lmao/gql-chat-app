@@ -41,10 +41,11 @@ type Query {
 
 type Mutation {
   signup(username: String, password: String): User
-  message(text: String, clanId: Int, authorId: String): Message
+  message(text: String, clanId: Int): Message
   login(password: String!, username: String!): String
   logout: Boolean
   community(name:String!, description: String): Community
+  clan(name:String!, description: String, communityId: Int): Clan
 }
 
 type Subscription {

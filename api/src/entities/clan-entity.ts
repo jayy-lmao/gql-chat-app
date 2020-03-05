@@ -10,6 +10,9 @@ class Clan extends BaseEntity {
 
   @Column()
   name: string;
+
+  @Column()
+  communityId: number;
 }
 
 export default Clan;

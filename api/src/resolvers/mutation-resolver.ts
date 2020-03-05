@@ -17,16 +17,23 @@ export default {
     return result && candidate.id;
   },
   logout: (_parent, _args, { req }) => req.session.destroy() && true,
+  clan: (_parent, { name, description, communityId }, { req, data: { Clan } }) =>
+    Clan.create({
+      name,
+      description,
+      communityId,
+      hostId: req.session.userId,
+    }).save(),
   community: (_parent, { name, description }, { req, data: { Community } }) =>
     Community.create({
       name,
       description,
       ownerId: req.session.userId,
     }).save(),
-  message: (_parent, args, { data: { Message } }) => {
+  message: (_parent, args, { req, data: { Message } }) => {
     const message = new Message();
     message.text = args.text;
-    message.authorId = args.authorId;
+    message.authorId = req.session.userId;
     message.clanId = args.clanId;
     return message.save();
   },
