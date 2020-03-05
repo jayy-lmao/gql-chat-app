@@ -1,4 +1,5 @@
 import { hash, compare } from 'bcrypt';
+import { NEW_MESSAGE } from './constants';
 
 const SALT_ROUNDS = 10;
 
@@ -30,11 +31,12 @@ export default {
       description,
       ownerId: req.session.userId,
     }).save(),
-  message: (_parent, args, { req, data: { Message } }) => {
+  message: (_parent, args, { req, pubSub, data: { Message } }) => {
     const message = new Message();
     message.text = args.text;
     message.authorId = req.session.userId;
     message.clanId = args.clanId;
+    pubSub.publish(NEW_MESSAGE, { newMessage: message });
     return message.save();
   },
 };

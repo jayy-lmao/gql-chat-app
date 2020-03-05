@@ -1,4 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-express';
+import { createServer } from 'http';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 import * as session from 'express-session';
 import * as Redis from 'ioredis';
 
@@ -12,6 +14,13 @@ import { entitiesContext, entities } from './entities';
 const RedisStore = require('connect-redis')(session);
 
 const typeDefs = gql(fs.readFileSync(__dirname.concat('/schema.graphql'), 'utf8'));
+
+const options = {
+  host: 'redis',
+  port: 6379,
+};
+
+const pubSub = new RedisPubSub({ publisher: new Redis(options), subscriber: new Redis(options) });
 
 const startServer = async () => {
   await createConnection({
@@ -32,7 +41,7 @@ const startServer = async () => {
     typeDefs,
     tracing: true,
     resolvers,
-    context: ({ res, req }) => ({ req, res, data: entitiesContext }),
+    context: ({ res, req }) => ({ req, res, pubSub, data: entitiesContext }),
   });
 
   app.use(
@@ -47,8 +56,10 @@ const startServer = async () => {
   server.applyMiddleware({
     app,
   });
+  const httpServer = createServer(app);
+  server.installSubscriptionHandlers(httpServer);
 
-  app.listen({ port: 4000 }, () => {
+  httpServer.listen({ port: 4000 }, () => {
     // eslint-disable-next-line no-console
     console.log(`Server ready at 4000`);
   });

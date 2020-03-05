@@ -1,11 +1,13 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import * as Redis from 'ioredis';
+import { withFilter } from 'apollo-server-express';
 import messageResolver from './message-resolver';
 import communityResolver from './community-resolver';
 import userResolver from './user-resolver';
 import queryResolver from './query-resolver';
 import clanResolver from './clan-resolver';
 import mutationResolver from './mutation-resolver';
+import { NEW_MESSAGE } from './constants';
 
 const options = {
   host: 'redis',
@@ -13,8 +15,6 @@ const options = {
 };
 
 const pubSub = new RedisPubSub({ publisher: new Redis(options), subscriber: new Redis(options) });
-
-const NEW_MESSAGE = 'NEW_MESSAGE';
 
 const resolvers = {
   Message: messageResolver,
@@ -24,7 +24,10 @@ const resolvers = {
   Query: queryResolver,
   Subscription: {
     newMessage: {
-      subscribe: () => pubSub.asyncIterator([NEW_MESSAGE]),
+      subscribe: withFilter(
+        () => pubSub.asyncIterator(NEW_MESSAGE),
+        (payload, variables) => payload.newMessage.clanId === variables.clanId,
+      ),
     },
   },
   Mutation: mutationResolver,
