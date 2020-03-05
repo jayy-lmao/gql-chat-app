@@ -13,6 +13,7 @@ type Clan {
   name: String
   community: Community
   messages: [Message]
+  host: User
 }
 
 type Message {
@@ -35,13 +36,15 @@ type Query {
   communities: [Community]
   messages: [Message]
   clans: [Clan]
-  login(password: String!, username: String!): String
   me: User
 }
 
 type Mutation {
-  createUser(username: String, password: String): User
-  createMessage(text: String, clanId: Int, authorId: String): Message
+  signup(username: String, password: String): User
+  message(text: String, clanId: Int, authorId: String): Message
+  login(password: String!, username: String!): String
+  logout: Boolean
+  community(name:String!, description: String): Community
 }
 
 type Subscription {

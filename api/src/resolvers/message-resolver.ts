@@ -1,3 +1,3 @@
 export default {
-  author: (parent, _args, { User }) => User.findOne(parent.authorId),
+  author: (parent, _args, { data: { User } }) => User.findOne(parent.authorId),
 };

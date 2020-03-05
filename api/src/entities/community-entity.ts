@@ -10,6 +10,9 @@ class Community extends BaseEntity {
 
   @Column()
   name: string;
+
+  @Column()
+  ownerId: string;
 }
 
 export default Community;

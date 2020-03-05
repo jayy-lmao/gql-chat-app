@@ -1,6 +1,7 @@
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import Redis from 'ioredis';
 import messageResolver from './message-resolver';
+import communityResolver from './community-resolver';
 import userResolver from './user-resolver';
 import queryResolver from './query-resolver';
 import mutationResolver from './mutation-resolver';
@@ -16,6 +17,7 @@ const NEW_MESSAGE = 'NEW_MESSAGE';
 
 const resolvers = {
   Message: messageResolver,
+  Community: communityResolver,
   User: userResolver,
   Query: queryResolver,
   Subscription: {
