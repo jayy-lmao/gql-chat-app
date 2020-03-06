@@ -1,0 +1,47 @@
+version: "2.3"
+services: 
+  integration: 
+    build:
+      context: ./api
+      dockerfile: Dockerfile.test
+    networks:
+      - jayy_network
+    depends_on:
+      - api
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports: 
+      - "4000:4000"
+    depends_on: 
+      - redis
+      - db
+    expose:
+       - 4000
+    networks:
+      - jayy_network
+    volumes:
+      - ./api:/usr/src/app/
+
+  redis:
+    image: redis
+    networks:
+      - jayy_network
+    ports:
+      - 6379:6379
+  db:
+    image: postgres:12
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    environment:
+      POSTGRES_USER: jayylmao
+      POSTGRES_PASSWORD: yeetus
+      POSTGRES_DB: chatapp
+    ports:
+      - "5432:5432"
+    networks:
+      - jayy_network
+
+networks:
+  jayy_network:
+    driver: bridge
