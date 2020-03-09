@@ -34,8 +34,10 @@ type User {
 type Query {
   users: [User]
   communities: [Community]
+  communityByName(name: String): Community
   messages: [Message]
   clans: [Clan]
+  clanByName(name:String!): Clan
   me: User
 }
 

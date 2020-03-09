@@ -8,7 +8,7 @@ class Community extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
