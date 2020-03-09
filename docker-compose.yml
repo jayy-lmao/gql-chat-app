@@ -1,5 +1,28 @@
 version: "2.3"
 services: 
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - web
+    networks:
+      - jayy_network
+  web: 
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - jayy_network
+    volumes:
+      - ./web:/usr/src/web/
   api:
     build: 
       context: ./api
@@ -14,7 +37,7 @@ services:
     networks:
       - jayy_network
     volumes:
-      - ./api:/usr/src/app/
+      - ./api:/usr/src/api/
       # - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
 
   redis:

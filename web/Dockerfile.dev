@@ -1,8 +1,8 @@
 FROM node
 
 # Create app directory
-RUN mkdir -p /usr/src/api
-WORKDIR /usr/src/api
+RUN mkdir -p /usr/src/web
+WORKDIR /usr/src/web
 
 # Install dependencies
 COPY ./package.json ./
@@ -13,5 +13,5 @@ RUN yarn
 COPY . ./
 
 # Exports
-EXPOSE 4000
+EXPOSE 3000
 CMD ["yarn", "watch"]
