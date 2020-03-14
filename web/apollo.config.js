@@ -2,7 +2,7 @@ module.exports = {
   client: {
     service: {
       name: "gql-chat-app",
-      url: "http://localhost:4000/graphql"
+      url: "http://192.168.1.117/graphql"
     },
     includes: ["./pages/**/*.{js,jsx,graphql}"]
   }
